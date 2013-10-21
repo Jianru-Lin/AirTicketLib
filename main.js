@@ -15,11 +15,11 @@ function doSearch(cb) {
 	// 填写参数
 	search['days'] = '5';
 	search['type'] = 'classic';
-	search['depart'] = '20-10-2013';
-	search['return'] = '25-10-2013';
+	search['depart'] = '22-10-2013';
+	search['return'] = '';
 	search['currency'] = 'MYR';
 	search['origin'] = 'KUL';
-	search['destination'] = 'PER';
+	search['destination'] = 'SYD';
 	search['passenger-count'] = '1';
 	search['infant-count'] = '0';
 
