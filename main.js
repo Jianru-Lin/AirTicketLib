@@ -61,7 +61,6 @@ function onSearchDone() {
 	g.search.responseObj = JSON.parse(g.search.request.resBuffer.toString('utf8'));
 
 	// 把 cookie 值抽取出来
-	debugger;
 	g.booking.cookie = /^[^;]+/.exec(g.search.request.res.headers['set-cookie'])[0];
 
 	// 目前的选票逻辑是自动选择当天的打折票（promo）
@@ -162,8 +161,13 @@ function onSearchDone() {
 }
 
 function onBookingDone() {
-	console.log('booking done');
-	console.log('statusCode = ' + g.booking.request.res.statusCode);
+	var statusCode = g.booking.request.res.statusCode;
+	console.log('statusCode = ' + statusCode);
+	if (statusCode === 200) {
+		console.log('booking done');
+	} else {
+		console.log('booking failed');
+	}
 	debugger;
 }
 
@@ -223,7 +227,6 @@ function beginBooking(cb) {
 		'Origin': 'https://chrome.airasia.com'
 	};
 	request.body = body;
-	debugger;
 
 	// 注意要带上 Cookie
 	request.addtionHeaders.Cookie = g.booking.cookie;
