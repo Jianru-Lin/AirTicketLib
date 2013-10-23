@@ -34,11 +34,11 @@ var g = {
 // 填写搜索参数
 g.search.postForm['days'] = '5';
 g.search.postForm['type'] = 'classic';
-g.search.postForm['depart'] = '24-10-2013';
+g.search.postForm['depart'] = '25-10-2013';
 g.search.postForm['return'] = '';
-g.search.postForm['currency'] = 'MYR';
-g.search.postForm['origin'] = 'KUL';
-g.search.postForm['destination'] = 'SYD';
+g.search.postForm['currency'] = 'THB';
+g.search.postForm['origin'] = 'DMK';
+g.search.postForm['destination'] = 'MFM';
 g.search.postForm['passenger-count'] = '1';
 g.search.postForm['infant-count'] = '0';
 
@@ -65,39 +65,12 @@ function onSearchDone() {
 
 	var departDate = g.search.postForm['depart'];
 
-	var o = g.search.responseObj;
+	var departFilght;
 
-	if (!o.depart) {
-		console.log('no depart ticket: !o.depart');
+	if (!selectDepartFilght()) {
 		return;
 	}
 
-	if (!o.depart[departDate]) {
-		console.log('no depart ticket: !o.depart[departDate]');
-		return;
-	}
-
-	if (!o.depart[departDate].details) {
-		console.log('no depart ticket: !o.depart[departDate].details');
-		return;
-	}
-
-	if (!o.depart[departDate].details.promo) {
-		console.log('no depart ticket: !o.depart[departDate].details.promo');
-		return;
-	}
-
-	if (!o.depart[departDate].details.promo[0]) {
-		console.log('no depart ticket: !o.depart[departDate].details.promo[0]');
-		return;
-	}
-
-	if (!o.depart[departDate].details.promo[0].sellkey) {
-		console.log('no depart ticket: !o.depart[departDate].details.promo[0].sellkey');
-		return;
-	}
-
-	var departFilght = o.depart[departDate].details.promo[0];
 	var departSellkey = departFilght.sellkey;
 
 	// 输出当前的订票信息
@@ -117,10 +90,74 @@ function onSearchDone() {
 
 	// 开始执行订票
 	beginBooking(onBookingDone);
+
+	function selectDepartFilght() {
+		var o = g.search.responseObj;
+
+		if (!o.depart) {
+			console.log('no depart ticket: !o.depart');
+			return;
+		}
+
+		if (!o.depart[departDate]) {
+			console.log('no depart ticket: !o.depart[departDate]');
+			return;
+		}
+
+		if (!o.depart[departDate].details) {
+			console.log('no depart ticket: !o.depart[departDate].details');
+			return;
+		}
+
+		// 买指定航班的票
+		var details = o.depart[departDate].details;
+		var targetFlightNumber = 'FD 2542';
+		var targetFlight = undefined;
+
+		for (var flightType in details) {
+			details[flightType].forEach(function(flight) {
+				if (flight['flight-number'] === targetFlightNumber) {
+					targetFlight = flight;
+					console.log('target flight found: ' + targetFlightNumber);
+				}
+			});
+		}
+
+		if (!targetFlight) {
+			console.log('target flight not found: ' + targetFlightNumber);
+			return false;
+		}
+
+		// 记录到上级变量
+		departFilght = targetFlight;
+
+		// 确认成功
+		return true;
+
+		/*
+
+		// 买特价票
+
+		if (!o.depart[departDate].details.promo) {
+			console.log('no depart ticket: !o.depart[departDate].details.promo');
+			return;
+		}
+
+		if (!o.depart[departDate].details.promo[0]) {
+			console.log('no depart ticket: !o.depart[departDate].details.promo[0]');
+			return;
+		}
+
+		if (!o.depart[departDate].details.promo[0].sellkey) {
+			console.log('no depart ticket: !o.depart[departDate].details.promo[0].sellkey');
+			return;
+		}
+
+		*/
+	}
 }
 
 function onBookingDone() {
-
 }
 
 function beginSearch(cb) {
