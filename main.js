@@ -114,7 +114,7 @@ function onSearchDone() {
 
 		// 买指定航班的票
 		var details = o.depart[departDate].details;
-		var targetFlightNumber = 'FD 2542';
+		var targetFlightNumber = 'FD 2544';
 		var targetFlight = undefined;
 
 		for (var flightType in details) {
