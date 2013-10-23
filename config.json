@@ -1,0 +1,12 @@
+{
+	"target": {
+		"flight-number": "FD 2546"
+	},
+	"search": {
+		"depart": "25-10-2013",
+		"currency": "THB",
+		"origin": "DMK",
+		"destination": "MFM",
+		"passenger-count": "1"
+	}
+}

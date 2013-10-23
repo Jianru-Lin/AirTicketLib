@@ -1,6 +1,7 @@
 var Request = require('./lib/request.js');
 var objToForm = require('./lib/objToForm.js');
 var format = require('util').format;
+var config = require('./config.json');
 
 var g = {
 	search : {
@@ -34,12 +35,12 @@ var g = {
 // 填写搜索参数
 g.search.postForm['days'] = '5';
 g.search.postForm['type'] = 'classic';
-g.search.postForm['depart'] = '25-10-2013';
+g.search.postForm['depart'] = config.search.depart;
 g.search.postForm['return'] = '';
-g.search.postForm['currency'] = 'THB';
-g.search.postForm['origin'] = 'DMK';
-g.search.postForm['destination'] = 'MFM';
-g.search.postForm['passenger-count'] = '1';
+g.search.postForm['currency'] = config.search.currency;
+g.search.postForm['origin'] = config.search.origin;
+g.search.postForm['destination'] = config.search.destination;
+g.search.postForm['passenger-count'] = config.search['passenger-count'];
 g.search.postForm['infant-count'] = '0';
 
 // 开始搜索
@@ -114,7 +115,7 @@ function onSearchDone() {
 
 		// 买指定航班的票
 		var details = o.depart[departDate].details;
-		var targetFlightNumber = 'FD 2544';
+		var targetFlightNumber = config.target['flight-number'];
 		var targetFlight = undefined;
 
 		for (var flightType in details) {
