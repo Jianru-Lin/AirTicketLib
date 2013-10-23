@@ -60,6 +60,10 @@ function onSearchDone() {
 	// 解析一下服务端返回的额 JSON 结果
 	g.search.responseObj = JSON.parse(g.search.request.resBuffer.toString('utf8'));
 
+	// 把 cookie 值抽取出来
+	debugger;
+	g.booking.cookie = /^[^;]+/.exec(g.search.request.res.headers['set-cookie'])[0];
+
 	// 目前的选票逻辑是自动选择当天的打折票（promo）
 	// 如果当天没有票，或者有票但是没有打折票，那么提示用户错误信息然后退出即可
 
@@ -158,6 +162,9 @@ function onSearchDone() {
 }
 
 function onBookingDone() {
+	console.log('booking done');
+	console.log('statusCode = ' + g.booking.request.res.statusCode);
+	debugger;
 }
 
 function beginSearch(cb) {
@@ -216,6 +223,7 @@ function beginBooking(cb) {
 		'Origin': 'https://chrome.airasia.com'
 	};
 	request.body = body;
+	debugger;
 
 	// 注意要带上 Cookie
 	request.addtionHeaders.Cookie = g.booking.cookie;
